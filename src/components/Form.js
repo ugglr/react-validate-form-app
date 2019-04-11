@@ -63,22 +63,16 @@ class Form extends Component {
 
     switch (name) {
       case "name":
-        formErrors.name =
-          nameReg.test(value) && value.length > 0 ? "" : "invalid name";
+        formErrors.name = nameReg.test(value) ? "" : "invalid name";
         break;
       case "email":
-        formErrors.email =
-          emailReg.test(value) && value.length > 0 ? "" : "invalid email";
+        formErrors.email = emailReg.test(value) ? "" : "invalid email";
         break;
       case "phone":
-        formErrors.phone =
-          phoneReg.test(value) && value.length > 0
-            ? ""
-            : "invalid phone number";
+        formErrors.phone = phoneReg.test(value) ? "" : "invalid phone number";
         break;
       case "blogURL":
-        formErrors.blogURL =
-          blogURLReg.test(value) && value.length > 0 ? "" : "invalid url";
+        formErrors.blogURL = blogURLReg.test(value) ? "" : "invalid url";
         break;
       default:
         break;
@@ -112,6 +106,7 @@ class Form extends Component {
               placeholder="email"
               onChange={this.handleChange}
             />
+            {formErrors.email.length > 0 && <span>{formErrors.email}</span>}
             <h3>Phone:</h3>
             <input
               type="text"
@@ -120,6 +115,7 @@ class Form extends Component {
               placeholder="phone"
               onChange={this.handleChange}
             />
+            {formErrors.phone.length > 0 && <span>{formErrors.phone}</span>}
             <h3>BlogURL:</h3>
             <input
               type="text"
@@ -128,6 +124,7 @@ class Form extends Component {
               placeholder="blogURL"
               onChange={this.handleChange}
             />
+            {formErrors.blogURL.length > 0 && <span>{formErrors.blogURL}</span>}
             <div>
               <button type="submit">Submit</button>
             </div>
