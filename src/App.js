@@ -6,10 +6,10 @@ import Message from "./components/Message";
 
 class App extends Component {
   state = {
-    name: null,
-    email: null,
-    phone: null,
-    blogURL: null,
+    name: "",
+    email: "",
+    phone: "",
+    blogURL: "",
     formErrors: {
       name: "",
       email: "",
@@ -25,34 +25,84 @@ class App extends Component {
   handleChange = async e => {
     e.preventDefault();
     //Add the information from the form to the state
-    const { name, value } = e.target;
-    let formErrors = { ...this.state.formErrors };
+    let { name, value } = e.target;
 
-    switch (name) {
-      case "name":
-        formErrors.name = value.length < 3 ? "minimum 3 letters required" : "";
-        break;
-      case "email":
-        formErrors.email = value.length < 3 ? "minimum 3 letters required" : "";
-        break;
-      case "phone":
-        formErrors.phone = value.length < 3 ? "minimum 3 letters required" : "";
-        break;
-      case "blogURL":
-        formErrors.blogURL =
-          value.length < 3 ? "minimum 3 letters required" : "";
-        break;
-      default:
-        break;
-    }
-    await this.setState({ formErrors, [name]: value }, () =>
-      console.log(this.state)
-    );
+    await this.setState({ [name]: value });
   };
 
   handleSubmit = e => {
     e.preventDefault();
     console.log("The submit button was pressed");
+    //We want to validate upon the pressing of the submit button
+    this.validate();
+  };
+
+  validate = async () => {
+    let { name, email, phone, blogURL } = this.state;
+    let formErrors = { ...this.state.formErrors };
+
+    formErrors.name = await this.validateName(name);
+    formErrors.email = await this.validateEmail(email);
+    formErrors.phone = await this.validatePhone(phone);
+    formErrors.blogURL = await this.validateBlogURL(blogURL);
+
+    this.setState({ formErrors });
+
+    if (
+      this.state.isNameValid &&
+      this.state.isEmailValid &&
+      this.state.isPhoneValid &&
+      this.state.isBlogURLValid
+    ) {
+      console.log("Form was submitted successfully!");
+    } else {
+      console.log("Form was validated with errors");
+      console.log(this.state);
+    }
+  };
+
+  validateName = name => {
+    console.log("validating name");
+    if (name.length > 2) {
+      this.setState({ isNameValid: true });
+      return "";
+    } else {
+      this.setState({ isNameValid: false });
+      return "Name  needs to be longer than 3 letters";
+    }
+  };
+
+  validateEmail = email => {
+    console.log("validating email");
+    if (email.length > 2) {
+      this.setState({ isEmailValid: true });
+      return "";
+    } else {
+      this.setState({ isEmailValid: false });
+      return "Email needs to be longer than 3 letters";
+    }
+  };
+
+  validatePhone = phone => {
+    console.log("validating phone");
+    if (phone.length > 2) {
+      this.setState({ isPhoneValid: true });
+      return "";
+    } else {
+      this.setState({ isPhoneValid: false });
+      return "Phone needs to be longer than 3 letters";
+    }
+  };
+
+  validateBlogURL = blogURL => {
+    console.log("validating blogURL");
+    if (blogURL.length > 2) {
+      this.setState({ isBlogURLValid: true });
+      return "";
+    } else {
+      this.setState({ isBlogURLValid: false });
+      return "BlogURL needs to be longer than 3 letters";
+    }
   };
 
   render() {

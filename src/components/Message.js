@@ -1,8 +1,14 @@
 import React from "react";
 
 const Message = ({ formErrors }) => (
-  <div>
-    <h3>This is the message component</h3>
+  <div style={{ marginTop: "1rem" }}>
+    {Object.keys(formErrors).map((err, i) => (
+      <div key={i}>
+        <span style={{ color: "red" }}>{formErrors[err]}</span>
+        <br />
+        <br />
+      </div>
+    ))}
   </div>
 );
 
